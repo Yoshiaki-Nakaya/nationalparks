@@ -8,6 +8,8 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.openshift.evg.roadshow.parks.model.Park;
 import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
@@ -23,6 +25,7 @@ import java.util.List;
  */
 @Component
 public class MongoDBConnection {
+    private static final Logger log = LoggerFactory.getLogger(MongoDBConnection.class);
 
     private static final String FILENAME = "/nationalparks.json";
 
@@ -46,6 +49,8 @@ public class MongoDBConnection {
         String mongoUser = env.getProperty("mongodb.user", "mongodb"); // env var MONGODB_USER takes precedence
         String mongoPassword = env.getProperty("mongodb.password", "mongodb"); // env var MONGODB_PASSWORD takes precedence
         String mongoDBName = env.getProperty("mongodb.database", "mongodb"); // env var MONGODB_DATABASE takes precedence
+        
+        log.info("Connection Info!!!!!!! mongoHost:{}, mongoPort:{}, mongoUser:{}, mongoPassword:{}, mongoDBName:{}", mongoHost, mongoPort, mongoUser, mongoPassword, mongoDBName);
 
         try {
             String mongoURI = "mongodb://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDBName;
